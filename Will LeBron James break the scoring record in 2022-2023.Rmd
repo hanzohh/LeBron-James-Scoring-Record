@@ -57,6 +57,11 @@ lbj <- lbj_url %>%
          TOV = as.numeric(TOV), PF = as.numeric(PF), PTS = as.numeric(PTS)) %>% 
   drop_na() 
 
+### TOTAL KAREEMS PTS MINUS TOTAL (BEFORE THE SEASON STARTS) LEBRON PTS ###
+38387 - 37062
+
+### 1326 IS THE TOTAL NUMBER OF PTS LBJ NEEDS TO BREAK THE RECORD ###
+
 ```
 
 ```{r}
@@ -81,6 +86,38 @@ games_played <- lbj %>%
   ggtitle("Games played per Season")
 
 games_played
+
+```
+```{r cols.print=15, rows.print=30}
+### 10/17/2022: THIS IS THE INITIAL QUICK AND BASIC PROJECTIONS THAT I WILL DO BEFORE THE SEASON STARTS ###
+
+### JUST FROM LOOKING AT THE CHART, WE WANT WHAT SEEMS LIKE THE AVG HE MIGHT SCORE THIS YEAR
+pts_proj1 <- lbj %>%
+  select(Season, Age, Tm, Pos, G, PTS) %>% 
+  filter(Season >= 2010 & Season < 2021) %>% 
+  summarise(Avg_PPG = mean(PTS))
+
+### LEBRON IS ONLY GETTING OLDER AND WE SEE APPROX SIMILAR GAMES PLAYED IN HIS LAST 4 YEARS WITH THE LAKERS, SO WE WILL USE THOSE YEARS AS GAMES PLAYED METRIC
+g_proj1 <- lbj %>% 
+  select(Season, Age, Tm, Pos, G, PTS) %>% 
+  filter(Season >= 2018) %>% 
+  summarise(Avg_GP = mean(G), chance_playing = (Avg_GP / 82))
+
+pts_proj1
+g_proj1
+
+########## LEBRON WILL BREAK THE RECORD ON... ##########
+
+### AGAINST THE BOSTON CELTICS ON 1/28/2022? ###
+how_many_games1 <- (1326 / 26.35455) # TOTAL PTS NEEDED / AVG PROJ PTS PER GAME 
+how_many_games1
+
+### AGAINST THE ORLANDO MAGICS ON 12/27/2022? ###
+how_many_games2 <- (1326 / 26.35455) * 0.679878	 # (TOTAL PTS NEEDED / AVG PROJ PTS PER GAME) X % CHANCE HE PLAYS PER GAME
+how_many_games2
+
+schedule
+
 
 ```
 
