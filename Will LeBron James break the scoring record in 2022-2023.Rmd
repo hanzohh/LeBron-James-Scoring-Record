@@ -10,6 +10,7 @@ output: html_document
 library(tidyverse)
 library(rvest)
 library(janitor)
+library(lubridate)
 
 ```
 
@@ -36,8 +37,29 @@ schedule_url
 ```{r}
 ### CLEAN THE DATA TABLE ###
 
+### CLEAN THE DATE AND CHANGE THE 2022 of "NEXT YEAR" into the appropriate 2023 YEAR
+schedule <- schedule_url <- schedule_url %>% 
+  mutate(DATE = as.Date(DATE,format = "%a, %b %d")) %>% 
+  mutate(DATE = case_when(month(DATE) > 0 & month(DATE) < 10 ~ 'year<-'(DATE, 2023), TRUE ~ DATE))
 
+### GET THE YEAR AND CLEAN THE STAT DATA
+lbj <- lbj_url %>% 
+  rename('FG_Percent'= 'FG%' ,'Three_PT_Percent' ='3P%', 'Two_PT_Percent'= '2P%' ,  'eff_FG_percent'= 'eFG%', 'FT_Percent'= 'FT%', THREES = '3P', twos = '2P',       two_att = '2PA', three_att = '3PA') %>% 
+  mutate(Season = as.numeric(substr(Season,0,4)), Age = as.numeric(Age), G = as.numeric(G), GS = as.numeric(GS), MP = as.numeric(MP),
+         FGA = as.numeric(FGA), FG_Percent = as.numeric(FG_Percent), THREES = as.numeric(THREES), 
+         three_att = as.numeric(three_att),Three_PT_Percent = as.numeric(Three_PT_Percent), 
+         twos = as.numeric(twos), two_att = as.numeric(two_att), Two_PT_Percent = as.numeric(Two_PT_Percent), 
+         eff_FG_percent = as.numeric(eff_FG_percent), FT = as.numeric(FT), FTA = as.numeric(FTA), 
+         FT_Percent = as.numeric(FT_Percent), ORB = as.numeric(ORB), DRB = as.numeric(DRB), 
+         TRB = as.numeric(TRB), AST = as.numeric(AST), STL = as.numeric(STL), BLK = as.numeric(BLK), 
+         TOV = as.numeric(TOV), PF = as.numeric(PF), PTS = as.numeric(PTS)) %>% 
+  drop_na()
+  
 
 ```
 
+```{r}
+### Visualize to see if we can find a trend in Points per game ###
+
+```
 
