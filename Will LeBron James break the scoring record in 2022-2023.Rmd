@@ -9,10 +9,35 @@ output: html_document
 ###  LOAD THE PACKAGES THAT I WILL USE FOR THIS ANALYSIS ###
 library(tidyverse)
 library(rvest)
+library(janitor)
 
 ```
 
+```{r cols.print=15, rows.print=30}
+### LeBron James plays for the Los Angeles Lakers, so we want the LA Lakers schedule
+schedule_url <- read_html("https://www.espn.com/nba/team/schedule/_/name/lal/los-angeles-lakers") %>% 
+  html_nodes("table") %>% 
+  html_table(fill = TRUE) %>% 
+  as.data.frame() %>% 
+  row_to_names(row_number = 1) %>% 
+  select(-tickets) %>%  ### We don't need the ticket values (No price analysis in this project)
+  as.tibble()
+
+### We want the table of LeBron James season history ###
+lbj_url <- read_html("https://www.basketball-reference.com/players/j/jamesle01.html") %>% 
+  html_nodes("table") %>% 
+  .[[2]] %>% 
+  html_table(fill = TRUE)
+
+lbj_url
+schedule_url
+
+```
 ```{r}
+### CLEAN THE DATA TABLE ###
+
+
 
 ```
+
 
