@@ -1,0 +1,18 @@
+---
+title: "Will LeBron James break the scoring record in 2022-2023?"
+author: "Hanson Oh"
+date: "10/17/2022"
+output: html_document
+---
+
+```{r}
+###  LOAD THE PACKAGES THAT I WILL USE FOR THIS ANALYSIS ###
+library(tidyverse)
+library(rvest)
+
+```
+
+```{r}
+
+```
+
