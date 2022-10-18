@@ -40,7 +40,9 @@ schedule_url
 ### CLEAN THE DATE AND CHANGE THE 2022 of "NEXT YEAR" into the appropriate 2023 YEAR
 schedule <- schedule_url <- schedule_url %>% 
   mutate(DATE = as.Date(DATE,format = "%a, %b %d")) %>% 
-  mutate(DATE = case_when(month(DATE) > 0 & month(DATE) < 10 ~ 'year<-'(DATE, 2023), TRUE ~ DATE))
+  mutate(DATE = case_when(month(DATE) > 0 & month(DATE) < 10 ~ 'year<-'(DATE, 2023), TRUE ~ DATE), game_num = row_number()) %>% 
+  relocate(game_num, .before = DATE)
+  
 
 ### GET THE YEAR AND CLEAN THE STAT DATA
 lbj <- lbj_url %>% 
@@ -53,13 +55,32 @@ lbj <- lbj_url %>%
          FT_Percent = as.numeric(FT_Percent), ORB = as.numeric(ORB), DRB = as.numeric(DRB), 
          TRB = as.numeric(TRB), AST = as.numeric(AST), STL = as.numeric(STL), BLK = as.numeric(BLK), 
          TOV = as.numeric(TOV), PF = as.numeric(PF), PTS = as.numeric(PTS)) %>% 
-  drop_na()
-  
+  drop_na() 
 
 ```
 
 ```{r}
 ### Visualize to see if we can find a trend in Points per game ###
+
+### WHAT DOES THE TRAJECTORY LOOK LIKE FOR LBJ SCORING? ###
+scoring_pts <- lbj %>% 
+  ggplot(aes(Season, PTS)) +
+  geom_line(color = "purple") +
+  geom_point(color = "#FFCC00") +
+  geom_label(aes(label = PTS), size = 3)+
+  ggtitle("Average Points per Game per Season")
+
+scoring_pts
+
+### WHAT DOES THE TRAJECTORY LOOK LIKE FOR THE # OF GAMES HE PLAYS? ###
+games_played <- lbj %>% 
+  ggplot(aes(Season, G)) +
+  geom_line(color = "purple") + 
+  geom_point(color = "#FFCC00") +
+  geom_label(aes(label = G), size = 3)+
+  ggtitle("Games played per Season")
+
+games_played
 
 ```
 
